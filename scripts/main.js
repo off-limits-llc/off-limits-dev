@@ -42,14 +42,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Form submission to Zapier
     const form = document.getElementById('contactForm');
+    const statusMsg = document.getElementById('formStatus');
+
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerText;
+
             submitBtn.innerText = 'Sending...';
             submitBtn.disabled = true;
+            statusMsg.textContent = '';
+            statusMsg.className = 'form-status';
 
             const formData = new FormData(form);
             const data = {
@@ -65,17 +70,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    alert('Thank you! Your message has been sent.');
+                    statusMsg.textContent = 'Thank you! Your message has been sent.';
+                    statusMsg.classList.add('success');
                     form.reset();
                 } else {
                     throw new Error('Network response was not ok');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Oops! Something went wrong. Please try again later.');
+                statusMsg.textContent = 'Oops! Something went wrong. Please try again later.';
+                statusMsg.classList.add('error');
             } finally {
                 submitBtn.innerText = originalBtnText;
                 submitBtn.disabled = false;
+
+                // Clear success message after 5 seconds
+                if (statusMsg.classList.contains('success')) {
+                    setTimeout(() => {
+                        statusMsg.textContent = '';
+                        statusMsg.classList.remove('success');
+                    }, 5000);
+                }
             }
         });
     }

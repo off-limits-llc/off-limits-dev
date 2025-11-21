@@ -325,6 +325,22 @@ ul {
     background: rgba(0, 0, 0, 0.5);
 }
 
+.form-status {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+    min-height: 24px;
+    transition: var(--transition);
+}
+
+.form-status.success {
+    color: var(--accent-color);
+}
+
+.form-status.error {
+    color: #ef4444;
+}
+
 /* Footer */
 footer {
     padding: 40px 0;
