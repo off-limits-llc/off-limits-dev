@@ -58,15 +58,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const formData = new FormData(form);
             const data = {
-                name: form.querySelector('input[type="text"]').value,
-                email: form.querySelector('input[type="email"]').value,
-                message: form.querySelector('textarea').value
+                name: formData.get('name'),
+                email: formData.get('email'),
+                message: formData.get('message')
             };
 
             try {
                 const response = await fetch('https://hooks.zapier.com/hooks/catch/13936050/uziwfjx/', {
                     method: 'POST',
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
                 });
 
                 if (response.ok) {
